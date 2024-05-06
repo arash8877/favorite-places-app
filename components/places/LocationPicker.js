@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { View, StyleSheet, Alert, Image, Text } from "react-native";
 import OutlinedButton from "../ui/OutlinedButton";
 import { Colors } from "../../constants/colors";
@@ -8,14 +8,34 @@ import {
   PermissionStatus,
 } from "expo-location";
 import { getMapPreview } from "../../util/location";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
 
 const LocationPicker = () => {
   const [pickedLocation, setPickedLocation] = useState();
+  const navigation = useNavigation();
+  const route = useRoute();
+  const isFocused = useIsFocused();
+
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
-  const navigation = useNavigation();
 
+  //----------------if user picks location on map--------------
+
+
+  useEffect(() => {
+    if (isFocused && route.params) {
+      const mapPickedLocation = {
+        lat: route.params.pickedLat,
+        lng: route.params.pickedLng,
+      };
+      // console.log(mapPickedLocation)
+      setPickedLocation(mapPickedLocation);
+    }
+
+  }, [route, isFocused]);
+// the picked location is not shown as I need a google map api in the getMapPreview in the location.js component
+  
+  //------------------------Permission-----------------------------------
   async function verifyPermission() {
     if (
       locationPermissionInformation.status === PermissionStatus.UNDETERMINED
@@ -32,6 +52,7 @@ const LocationPicker = () => {
     return true;
   }
 
+  //----------------if user locate the location--------------
   async function getLocationHandler() {
     const hasPermission = await verifyPermission();
 
@@ -49,6 +70,8 @@ const LocationPicker = () => {
   function pickOnMapHandler() {
     navigation.navigate("Map");
   }
+
+  //-----------------------------------------------------------
 
   return (
     <View>
