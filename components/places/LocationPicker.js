@@ -48,7 +48,6 @@ const LocationPicker = () => {
 
   function pickOnMapHandler() {
     navigation.navigate("Map");
-    console.log("clickeddddddddddddd");
   }
 
   return (
