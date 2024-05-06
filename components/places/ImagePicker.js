@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Alert, Button, View, Image, StyleSheet, Text } from "react-native";
+import { Alert, View, Image, StyleSheet, Text } from "react-native";
 import {
   launchCameraAsync,
   useCameraPermissions,
   PermissionStatus,
 } from "expo-image-picker";
 import { Colors } from "../../constants/colors";
+import OutlinedButton from "../ui/OutlinedButton";
 //in android camera permission is managed automatically, but for iOS we need useCameraPermissions hook.
 
 const ImagePicker = () => {
@@ -53,7 +54,7 @@ const ImagePicker = () => {
           <Text>No image taken yet!</Text>
         )}
       </View>
-      <Button title="Take Image" onPress={takeImageHandler} />
+      <OutlinedButton icon='camera' onPress={takeImageHandler} >Take Image</OutlinedButton>
     </View>
   );
 };
