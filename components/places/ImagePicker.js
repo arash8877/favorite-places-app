@@ -43,8 +43,6 @@ const ImagePicker = () => {
     setPickedImage(image.assets[0].uri);
   }
 
-
-
   return (
     <View>
       <View style={styles.imageContainer}>
@@ -54,7 +52,9 @@ const ImagePicker = () => {
           <Text>No image taken yet!</Text>
         )}
       </View>
-      <OutlinedButton icon='camera' onPress={takeImageHandler} >Take Image</OutlinedButton>
+      <OutlinedButton icon="camera" onPress={takeImageHandler}>
+        Take Image
+      </OutlinedButton>
     </View>
   );
 };
