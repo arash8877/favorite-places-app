@@ -7,10 +7,14 @@ import {
   useForegroundPermissions,
   PermissionStatus,
 } from "expo-location";
-import { getMapPreview } from "../../util/location";
-import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
+import { getAddress, getMapPreview } from "../../util/location";
+import {
+  useNavigation,
+  useRoute,
+  useIsFocused,
+} from "@react-navigation/native";
 
-const LocationPicker = ({onTakeLocation}) => {
+const LocationPicker = ({ onTakeLocation }) => {
   const [pickedLocation, setPickedLocation] = useState();
   const navigation = useNavigation();
   const route = useRoute();
@@ -19,13 +23,21 @@ const LocationPicker = ({onTakeLocation}) => {
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
 
-    useEffect(() => {
-      onTakeLocation(pickedLocation)
-    }, [pickedLocation, onTakeLocation])
-    
+  useEffect(() => {
+    async function handleLocation() {
+      if (pickedLocation) {
+        const address = await getAddress(
+          pickedLocation.lat,
+          pickedLocation.lng
+        );
+        onTakeLocation({...pickedLocation, address: address});
+        //pickedLocation is lat and lng - address is human readable address
+      }
+    }
+    handleLocation();
+  }, [pickedLocation, onTakeLocation]);
 
   //----------------if user picks location on map--------------
-
 
   useEffect(() => {
     if (isFocused && route.params) {
@@ -36,10 +48,9 @@ const LocationPicker = ({onTakeLocation}) => {
       // console.log(mapPickedLocation)
       setPickedLocation(mapPickedLocation);
     }
-
   }, [route, isFocused]);
-// the picked location is not shown as I need a google map api in the getMapPreview in the location.js component
-  
+  // the picked location is not shown as I need a google map api in the getMapPreview in the location.js component
+
   //--------Permission------
   async function verifyPermission() {
     if (
