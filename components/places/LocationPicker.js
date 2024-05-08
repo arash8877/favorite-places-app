@@ -10,7 +10,7 @@ import {
 import { getMapPreview } from "../../util/location";
 import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
 
-const LocationPicker = () => {
+const LocationPicker = ({onTakeLocation}) => {
   const [pickedLocation, setPickedLocation] = useState();
   const navigation = useNavigation();
   const route = useRoute();
@@ -18,6 +18,11 @@ const LocationPicker = () => {
 
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
+
+    useEffect(() => {
+      onTakeLocation(pickedLocation)
+    }, [pickedLocation, onTakeLocation])
+    
 
   //----------------if user picks location on map--------------
 
@@ -35,7 +40,7 @@ const LocationPicker = () => {
   }, [route, isFocused]);
 // the picked location is not shown as I need a google map api in the getMapPreview in the location.js component
   
-  //------------------------Permission-----------------------------------
+  //--------Permission------
   async function verifyPermission() {
     if (
       locationPermissionInformation.status === PermissionStatus.UNDETERMINED

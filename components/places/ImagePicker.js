@@ -9,7 +9,7 @@ import { Colors } from "../../constants/colors";
 import OutlinedButton from "../ui/OutlinedButton";
 //in android camera permission is managed automatically, but for iOS we need useCameraPermissions hook.
 
-const ImagePicker = () => {
+const ImagePicker = ({onTakeImage}) => {
   const [pickedImage, setPickedImage] = useState("");
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
@@ -41,6 +41,7 @@ const ImagePicker = () => {
       quality: 0.5,
     });
     setPickedImage(image.assets[0].uri);
+    onTakeImage(image.assets[0].uri)
   }
 
   return (
