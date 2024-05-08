@@ -7,7 +7,7 @@ export function getMapPreview(lat, lng) {
 }
 
 
-// to convert lat and lng to a human readable address we need google map Geocoding API.
+// to convert lat and lng to a human readable address we need google-map Geocoding API.
 export async function getAddress (lat, lng) {
   const geoUrl = `xxxxxxxx?latlng=${lat},${lng}&key=${GOOGLE_API_KEY}`;
   const response = await fetch(geoUrl);
@@ -20,3 +20,4 @@ export async function getAddress (lat, lng) {
   const address = data.results[0].formatted_address;
   return address;
 }
+

@@ -45,6 +45,7 @@ const LocationPicker = ({ onTakeLocation }) => {
         lat: route.params.pickedLat,
         lng: route.params.pickedLng,
       };
+
       // console.log(mapPickedLocation)
       setPickedLocation(mapPickedLocation);
     }
@@ -76,11 +77,11 @@ const LocationPicker = ({ onTakeLocation }) => {
       return;
     }
     const location = await getCurrentPositionAsync();
-    // console.log(location);
     setPickedLocation({
       lat: location.coords.latitude,
       lng: location.coords.longitude,
     });
+
   }
 
   function pickOnMapHandler() {
