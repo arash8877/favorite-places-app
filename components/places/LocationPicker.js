@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { View, StyleSheet, Alert, Image, Text } from "react-native";
-import OutlinedButton from "../ui/OutlinedButton";
+import OutlinedButton from "../UI/OutlinedButton";
 import { Colors } from "../../constants/colors";
 import {
   getCurrentPositionAsync,
